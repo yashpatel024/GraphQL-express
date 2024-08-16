@@ -50,6 +50,14 @@ const resolvers = {
       throw new Error(error);
     }
   },
+  deleteProduct: async ({ id }) => {
+    try {
+      await Widget.deleteOne({_id: id});
+      return "Successfully deleted product";
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 export default resolvers;
