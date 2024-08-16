@@ -23,6 +23,14 @@ const resolvers = {
       throw new Error(error);
     }
   },
+  getAllProducts: async () => {
+    try {
+      const products = await Widget.find({});
+      return products;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
   createProduct: async ({ input }) => {
     const product = new Widget({
       name: input.name,
