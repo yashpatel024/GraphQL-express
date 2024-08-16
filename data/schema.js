@@ -15,6 +15,7 @@ const schema = buildSchema(`
     SOLDOUT
     ONSALE
   }
+    
   type Store {
     store: String
   }
