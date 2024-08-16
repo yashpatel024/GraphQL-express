@@ -1,4 +1,3 @@
-import crypto from 'crypto';
 import { Widget } from "./dbConnector.js";
 import { Error } from "mongoose";
 
@@ -19,21 +18,12 @@ const resolvers = {
   getProduct: async ({ id }) => {
     try {
       const product = await Widget.findById(id);
-      return new Product(
-        id, 
-        product.name, 
-        product.description, 
-        product.price, 
-        product.soldout, 
-        product.inventory,
-        product.stores
-      );
+      return product;
     } catch (error) {
       throw new Error(error);
     }
   },
   createProduct: async ({ input }) => {
-    let id = crypto.randomBytes(10).toString('hex');
     const product = new Widget({
       name: input.name,
       description: input.description,
@@ -42,17 +32,20 @@ const resolvers = {
       inventory: input.inventory,
       stores: input.stores
     });
+
+    product.id = product._id;
+
     try {
       await product.save();
-      return new Product(
-        id,
-        input.name,
-        input.description,
-        input.price,
-        input.soldout,
-        input.inventory,
-        input.stores
-      );
+      return product;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  updateProduct: async ({ input }) => {
+    try {
+      const updateProduct = await Widget.findByIdAndUpdate({_id: input.id}, input, {new: true});
+      return updateProduct;
     } catch (error) {
       throw new Error(error);
     }
